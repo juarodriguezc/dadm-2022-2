@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#777"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/tictactoe"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/play_grid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TableLayout
+        android:id="@+id/play_grid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+        <TableRow android:gravity="center_horizontal">
+
+            <ImageButton
+                android:id="@+id/one"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/o_symbol" />
+
+
+
+
+            <ImageButton
+                android:id="@+id/two"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/x_symbol" />
+
+            <ImageButton
+                android:id="@+id/three"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/x_symbol" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal">
+
+            <ImageButton
+                android:id="@+id/four"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/x_symbol" />
+
+            <ImageButton
+                android:id="@+id/five"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/o_symbol" />
+
+            <ImageButton
+                android:id="@+id/six"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/o_symbol" />
+
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal">
+
+            <ImageButton
+                android:id="@+id/seven"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/x_symbol" />
+
+            <ImageButton
+                android:id="@+id/eight"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/o_symbol" />
+
+            <ImageButton
+                android:id="@+id/nine"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/app_name"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/o_symbol" />
+
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/information"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_grid" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
