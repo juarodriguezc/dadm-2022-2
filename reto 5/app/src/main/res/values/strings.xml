@@ -1,21 +1,29 @@
 <resources>
     <string name="app_name">AndroidTicTacToe</string>
     <string name="tictactoe">TicTacToe</string>
+
     <string name="itsatie">It\'s a tie !</string>
     <string name="androidwon">Android Won!</string>
     <string name="youwon">You Won!</string>
+
     <string name="youfirst">You go first</string>
     <string name="androidfirst">Android go first</string>
-    <string name="androidturn">It\'s Android\'s turn.</string>
-    <string name="youturn">It\'s your turn.</string>
+    <string name="androidturn">It\'s Android\'s turn</string>
+    <string name="youturn">It\'s your turn</string>
+
     <string name="information">Information</string>
     <string name="player">Player:</string>
     <string name="player_count">0</string>
+
     <string name="tie">Tie:</string>
     <string name="tie_count">0</string>
+
     <string name="android">Android:</string>
     <string name="android_count">0</string>
+
     <string name="difficulty">Difficulty:</string>
     <string name="level">Extreme</string>
+
+    <string name="set_difficulty">Set the difficulty</string>
 
 </resources>

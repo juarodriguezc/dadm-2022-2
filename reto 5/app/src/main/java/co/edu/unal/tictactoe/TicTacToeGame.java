@@ -1,6 +1,8 @@
 package co.edu.unal.tictactoe;
 
 
+import android.view.View;
+
 import java.util.Random;
 
 public class TicTacToeGame {
@@ -16,7 +18,7 @@ public class TicTacToeGame {
     // Current difficulty level
     private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
 
-    private final int BOARD_SIZE = 9;
+    public static final int BOARD_SIZE = 9;
     private final char[] mBoard = new char[BOARD_SIZE];
 
 
@@ -37,7 +39,6 @@ public class TicTacToeGame {
         mRand = new Random();
 
     }
-
 
 
     public void setmDifficultyLevel(String mDifficultyLevel) {
@@ -62,10 +63,12 @@ public class TicTacToeGame {
      * @param player   - The HUMAN_PLAYER or COMPUTER_PLAYER
      * @param location - The location (0-8) to place the move
      */
-    public void setMove(char player, int location) {
+    public boolean setMove(char player, int location) {
         if (mBoard[location] == OPEN_SPOT) {
             mBoard[location] = player;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -84,8 +87,8 @@ public class TicTacToeGame {
             if (move == -1)
                 move = getRandomMove();
         } else if (mDifficultyLevel == DifficultyLevel.Expert) {
-        // Try to win, but if that's not possible, block.
-        // If that's not possible, move anywhere.
+            // Try to win, but if that's not possible, block.
+            // If that's not possible, move anywhere.
             move = getWinningMove();
             if (move == -1)
                 move = getBlockingMove();
@@ -200,4 +203,9 @@ public class TicTacToeGame {
         // If we make it through the previous loop, all places are taken, so it's a tie
         return new int[]{1, 0, 0, 0};
     }
+
+    public char getBoardOccupant(int position){
+        return mBoard[position];
+    }
+
 }
