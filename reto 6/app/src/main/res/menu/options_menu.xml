@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/restart_game"
+        android:icon="@mipmap/restart_game_round"
+        android:title="@string/restart_game"
+        />
+
+    <item android:id="@+id/play_again"
+        android:title="@string/play_again"
+        android:icon="@mipmap/play_again_round"
+        />
+    <item android:id="@+id/ai_difficulty"
+        android:title="@string/difficulty_m"
+        android:icon="@mipmap/difficulty_round"
+        />
+    <item
+        android:id="@+id/quit"
+        android:icon="@mipmap/exit_round"
+        android:title="@string/quit"
+        />
+</menu>
