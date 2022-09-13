@@ -112,11 +112,8 @@ class MainActivity : AppCompatActivity() {
         mInfoTextView.text = savedInstanceState.getCharSequence("info")
         userStarts = savedInstanceState.getBoolean("userStarts")
         userPlays = savedInstanceState.getBoolean("userPlays", userPlays)
-
         //When the game is reloaded play if is android turn
-        if (!userStarts) {
-            mInfoTextView.setText(R.string.androidfirst)
-
+        if (!userPlays) {
             handler.postDelayed({
                 val winner: IntArray = androidPlays()
                 checkWinner(winner, TicTacToeGame.COMPUTER_PLAYER)
@@ -182,10 +179,13 @@ class MainActivity : AppCompatActivity() {
         6 - GOD SOUND
          **/
         mSoundsPlayer[0] = MediaPlayer.create(applicationContext, R.raw.ost)
-        mSoundsPlayer[0]?.isLooping = true
-        mSoundsPlayer[0]?.setVolume(0.09F, 0.09F)
-        mSoundsPlayer[0]?.start()
-
+        try {
+            mSoundsPlayer[0]?.isLooping = true
+            mSoundsPlayer[0]?.setVolume(0.09F, 0.09F)
+            mSoundsPlayer[0]?.start()
+        } catch (e: IllegalStateException) {
+            println("Error al reproducir del OST")
+        }
         mSoundsPlayer[1] = MediaPlayer.create(applicationContext, R.raw.player)
         mSoundsPlayer[2] = MediaPlayer.create(applicationContext, R.raw.computer)
         mSoundsPlayer[3] = MediaPlayer.create(applicationContext, R.raw.victory)
@@ -219,12 +219,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopAllMPS() {
         for (i in 1 until NUMSOUND) {
-            try{
+            try {
                 if (mSoundsPlayer[i]?.isPlaying == true) {
                     mSoundsPlayer[i]?.stop()
                     mSoundsPlayer[i]?.prepareAsync()
                 }
-            }catch (e: IllegalStateException){
+            } catch (e: IllegalStateException) {
                 println("Error al pausar los sonidos")
             }
 
@@ -353,8 +353,11 @@ class MainActivity : AppCompatActivity() {
                 mGameOver = true
                 //Play sound
                 stopAllMPS()
-                mSoundsPlayer[5]?.start()
-
+                try {
+                    mSoundsPlayer[5]?.start()
+                } catch (e: IllegalStateException) {
+                    println("Error al reproducir el sonido de TIE")
+                }
             }
             2 -> {
                 mInfoTextView.setText(R.string.youwon)
@@ -364,7 +367,11 @@ class MainActivity : AppCompatActivity() {
                 mGameOver = true
                 //Play sound
                 stopAllMPS()
-                mSoundsPlayer[3]?.start()
+                try {
+                    mSoundsPlayer[3]?.start()
+                } catch (e: IllegalStateException) {
+                    println("Error al reproducir el sonido de victoria")
+                }
             }
             else -> {
                 mInfoTextView.setText(R.string.androidwon)
@@ -374,14 +381,22 @@ class MainActivity : AppCompatActivity() {
                 mGameOver = true
                 //Play sound
                 stopAllMPS()
-                mSoundsPlayer[4]?.start()
+                try {
+                    mSoundsPlayer[4]?.start()
+                } catch (e: IllegalStateException) {
+                    println("Error al reproducir el sonido de perdida")
+                }
                 //Check if god move won
                 if (winner[0] == 4) {
                     //Show image
                     godImage.visibility = View.VISIBLE
                     //Play sound
                     stopAllMPS()
-                    mSoundsPlayer[6]?.start()
+                    try {
+                        mSoundsPlayer[6]?.start()
+                    } catch (e: IllegalStateException) {
+                        println("Error al reproducir el sonido de GOD")
+                    }
                 }
 
             }
@@ -401,18 +416,18 @@ class MainActivity : AppCompatActivity() {
             if (player == TicTacToeGame.HUMAN_PLAYER) {
                 stopAllMPS()
 
-                try{
+                try {
                     mSoundsPlayer[1]?.start()
-                }catch (e: IllegalStateException) {
+                } catch (e: IllegalStateException) {
                     println("ERRor al reproducir el sonido del jugador")
                 }
 
             } else {
                 stopAllMPS()
 
-                try{
+                try {
                     mSoundsPlayer[2]?.start()
-                }catch (e: IllegalStateException) {
+                } catch (e: IllegalStateException) {
                     println("Error al reproducir el sonido del COmputer")
                 }
             }
