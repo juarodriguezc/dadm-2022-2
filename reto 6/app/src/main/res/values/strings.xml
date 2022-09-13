@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidTicTacToe</string>
+    <string name="app_name">TicTacToe</string>
     <string name="tictactoe">TicTacToe</string>
 
     <string name="itsatie">It\'s a tie !</string>
@@ -30,6 +30,7 @@
     <string name="play_again">Play again</string>
     <string name="difficulty_m">Difficulty</string>
     <string name="quit">Quit</string>
+    <string name="string_troll">string/troll</string>
 
 
 </resources>

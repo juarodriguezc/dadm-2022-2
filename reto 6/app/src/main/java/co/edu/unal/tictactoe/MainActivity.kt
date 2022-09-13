@@ -1,6 +1,7 @@
 package co.edu.unal.tictactoe
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -37,6 +38,12 @@ class MainActivity : AppCompatActivity() {
     private var mGameOver = false
     private var userPlays: Boolean = false
 
+    //Variable to control the difficulty
+
+    private val difficultyLevel: Array<String> = arrayOf("Easy", "Harder", "Expert", "God")
+
+    //Set default difficulty to expert
+    private var mDifLevel: Int = 2
 
     //Sounds for the game
     private val NUMSOUND = 7
@@ -61,7 +68,12 @@ class MainActivity : AppCompatActivity() {
     private var handler: Handler = Handler(Looper.getMainLooper())
 
 
+    //Keep persistent scores
+
+    private lateinit var mPrefs: SharedPreferences
+
     private inner class MTouchListener : View.OnTouchListener {
+        @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
             // Determine which cell was touched
             val col = event!!.x.toInt() / mBoardView.getBoardCellWidth()
@@ -83,15 +95,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putCharArray("board", mGame.boardState)
+        outState.putBoolean("mGameOver", mGameOver)
+        outState.putCharSequence("info", mInfoTextView.text)
+        outState.putBoolean("userStarts", userStarts)
+        outState.putBoolean("userPlays", userPlays)
+    }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // Restore the game's state
+        mGame.boardState = savedInstanceState.getCharArray("board")
+        mGameOver = savedInstanceState.getBoolean("mGameOver")
+        mInfoTextView.text = savedInstanceState.getCharSequence("info")
+        userStarts = savedInstanceState.getBoolean("userStarts")
+        userPlays = savedInstanceState.getBoolean("userPlays", userPlays)
+
+        //When the game is reloaded play if is android turn
+        if (!userStarts) {
+            mInfoTextView.setText(R.string.androidfirst)
+
+            handler.postDelayed({
+                val winner: IntArray = androidPlays()
+                checkWinner(winner, TicTacToeGame.COMPUTER_PLAYER)
+            }, 2000)
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mGame = TicTacToeGame()
         mBoardView = findViewById(R.id.boardView)
         mBoardView.setGame(mGame)
-        // Listen for touches on the board
-        mBoardView.setOnTouchListener(MTouchListener());
+        /* Listen for touches on the board */
+        mBoardView.setOnTouchListener(MTouchListener())
         nGames = intArrayOf(0, 0, 0)
         //Button to restart
         restartButton = findViewById<View>(R.id.restartButton) as ImageButton
@@ -104,12 +145,28 @@ class MainActivity : AppCompatActivity() {
         //Create audio arrays
         mSoundsPlayer = arrayOfNulls(NUMSOUND)
         //Load image
-        godImage = findViewById(R.id.troll_face) as ImageView
+        godImage = findViewById<ImageView>(R.id.troll_face)
+
+        //Data persistence
+        mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE)
+        //Restore the scores
+        nGames[0] = mPrefs.getInt("wins", 0)
+        nGames[1] = mPrefs.getInt("loses", 0)
+        nGames[2] = mPrefs.getInt("ties", 0)
+
+        mDifLevel = mPrefs.getInt("mDifLevel", 2)
+        updateDifficulty()
+
         //Listener for restart button
         restartButton.setOnClickListener {
             startNewGame()
         }
-        startNewGame()
+
+        //Load previous state
+        if (savedInstanceState == null) {
+            startNewGame()
+        }
+        updateWins()
     }
 
     override fun onResume() {
@@ -126,7 +183,7 @@ class MainActivity : AppCompatActivity() {
          **/
         mSoundsPlayer[0] = MediaPlayer.create(applicationContext, R.raw.ost)
         mSoundsPlayer[0]?.isLooping = true
-        mSoundsPlayer[0]?.setVolume(0.09F,0.09F)
+        mSoundsPlayer[0]?.setVolume(0.09F, 0.09F)
         mSoundsPlayer[0]?.start()
 
         mSoundsPlayer[1] = MediaPlayer.create(applicationContext, R.raw.player)
@@ -145,12 +202,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        // Save the current scores
+        val ed = mPrefs.edit()
+        //Wins
+        ed.putInt("wins", nGames[0])
+        //Lose
+        ed.putInt("loses", nGames[1])
+        //Tie
+        ed.putInt("ties", nGames[2])
+        //Difficulty
+        ed.putInt("mDifLevel", mDifLevel)
+        ed.commit()
+    }
+
     private fun stopAllMPS() {
         for (i in 1 until NUMSOUND) {
-            if (mSoundsPlayer[i]?.isPlaying == true) {
-                mSoundsPlayer[i]?.stop()
-                mSoundsPlayer[i]?.prepareAsync();
+            try{
+                if (mSoundsPlayer[i]?.isPlaying == true) {
+                    mSoundsPlayer[i]?.stop()
+                    mSoundsPlayer[i]?.prepareAsync()
+                }
+            }catch (e: IllegalStateException){
+                println("Error al pausar los sonidos")
             }
+
         }
     }
 
@@ -186,12 +263,11 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun showDifficultyDialog() {
-        val listItems = arrayOf("Easy", "Harder", "Expert", "God")
         val mBuilder = AlertDialog.Builder(this@MainActivity)
         mBuilder.setTitle(R.string.set_difficulty)
-        mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
-            difficultyText.text = listItems[i]
-            mGame.setmDifficultyLevel(listItems[i])
+        mBuilder.setSingleChoiceItems(difficultyLevel, -1) { dialogInterface, i ->
+            mDifLevel = i
+            updateDifficulty()
             startNewGame()
             dialogInterface.dismiss()
         }
@@ -200,6 +276,12 @@ class MainActivity : AppCompatActivity() {
         }
         val mDialog = mBuilder.create()
         mDialog.show()
+    }
+
+    private fun updateDifficulty() {
+        difficultyText.text = difficultyLevel[mDifLevel]
+        mGame.setmDifficultyLevel(difficultyLevel[mDifLevel])
+
     }
 
     private fun showExitDialog() {
@@ -219,14 +301,15 @@ class MainActivity : AppCompatActivity() {
         //Update wins
         updateWins()
         //Hide image
-        godImage.visibility = View.INVISIBLE;
+        godImage.visibility = View.INVISIBLE
         //Delete handler Queue
-        handler.removeCallbacksAndMessages(null);
+        handler.removeCallbacksAndMessages(null)
         userPlays = userStarts
         mGameOver = false
         clearBoard()
         if (!userStarts) {
             mInfoTextView.setText(R.string.androidfirst)
+
             handler.postDelayed({
                 val winner: IntArray = androidPlays()
                 checkWinner(winner, TicTacToeGame.COMPUTER_PLAYER)
@@ -293,10 +376,9 @@ class MainActivity : AppCompatActivity() {
                 stopAllMPS()
                 mSoundsPlayer[4]?.start()
                 //Check if god move won
-                println(winner)
-                if(winner[0] == 4){
+                if (winner[0] == 4) {
                     //Show image
-                    godImage.visibility = View.VISIBLE;
+                    godImage.visibility = View.VISIBLE
                     //Play sound
                     stopAllMPS()
                     mSoundsPlayer[6]?.start()
@@ -318,16 +400,26 @@ class MainActivity : AppCompatActivity() {
             mBoardView.invalidate()
             if (player == TicTacToeGame.HUMAN_PLAYER) {
                 stopAllMPS()
-                mSoundsPlayer[1]?.start()
+
+                try{
+                    mSoundsPlayer[1]?.start()
+                }catch (e: IllegalStateException) {
+                    println("ERRor al reproducir el sonido del jugador")
+                }
+
             } else {
                 stopAllMPS()
-                mSoundsPlayer[2]?.start()
+
+                try{
+                    mSoundsPlayer[2]?.start()
+                }catch (e: IllegalStateException) {
+                    println("Error al reproducir el sonido del COmputer")
+                }
             }
             return true
         }
         return false
     }
-
 
 
     private fun setWinner(winner: IntArray) {

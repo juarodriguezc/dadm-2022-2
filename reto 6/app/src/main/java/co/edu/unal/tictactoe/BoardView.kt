@@ -1,5 +1,6 @@
 package co.edu.unal.tictactoe
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -54,6 +55,7 @@ class BoardView : View {
         mGame = game
     }
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawColor(Color.BLACK)
@@ -98,14 +100,14 @@ class BoardView : View {
             if (mGame.getBoardOccupant(i) == TicTacToeGame.HUMAN_PLAYER) {
                 if(winner && wPos.contains(i)){
                     mPaint!!.colorFilter =
-                        PorterDuffColorFilter(Color.argb(255, 206, 147, 216), PorterDuff.Mode.SRC_IN);
+                        PorterDuffColorFilter(Color.argb(255, 206, 147, 216), PorterDuff.Mode.SRC_IN)
                 }
                 canvas.drawBitmap(mHumanBitmap, null, Rect(left, top, right, bottom), mPaint)
 
             } else if (mGame.getBoardOccupant(i) == TicTacToeGame.COMPUTER_PLAYER) {
                 if(winner && wPos.contains(i)){
                     mPaint!!.colorFilter =
-                        PorterDuffColorFilter(Color.argb(255, 206, 147, 216), PorterDuff.Mode.SRC_IN);
+                        PorterDuffColorFilter(Color.argb(255, 206, 147, 216), PorterDuff.Mode.SRC_IN)
                 }
                 canvas.drawBitmap(mComputerBitmap, null, Rect(left, top, right, bottom),mPaint)
             }

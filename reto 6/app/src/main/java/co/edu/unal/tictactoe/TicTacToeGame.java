@@ -3,6 +3,7 @@ package co.edu.unal.tictactoe;
 
 import android.view.View;
 
+import java.sql.SQLOutput;
 import java.util.Random;
 
 public class TicTacToeGame {
@@ -13,13 +14,12 @@ public class TicTacToeGame {
 
     public enum DifficultyLevel {Easy, Harder, Expert, God}
 
-    ;
 
     // Current difficulty level
     private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
 
     public static final int BOARD_SIZE = 9;
-    private final char[] mBoard = new char[BOARD_SIZE];
+    private char[] mBoard = new char[BOARD_SIZE];
 
 
     public int getBOARD_SIZE() {
@@ -34,6 +34,14 @@ public class TicTacToeGame {
         clearBoard();
         mRand = new Random();
 
+    }
+
+    public char[] getBoardState() {
+        return mBoard;
+    }
+
+    public void setBoardState(char[] board) {
+        mBoard = board.clone();
     }
 
 
@@ -98,6 +106,9 @@ public class TicTacToeGame {
             // If that's not possible, move anywhere.
             move = getWinningMove();
             if (move == -1) {
+                move = getCornerMove();
+            }
+            if (move == -1) {
                 if (getNumMov() < 7)
                     move = getBlockingMove();
                 else
@@ -122,7 +133,7 @@ public class TicTacToeGame {
                 }
             }
             //Tomar las diagonales
-            if (move == -1){
+            if (move == -1) {
                 if (mBoard[0] == OPEN_SPOT)
                     move = 0;
                 else if (mBoard[2] == OPEN_SPOT)
@@ -157,7 +168,7 @@ public class TicTacToeGame {
             if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
                 char curr = mBoard[i];
                 mBoard[i] = COMPUTER_PLAYER;
-                if (checkForWinner()[0] == 3) {
+                if (checkForWinner()[0] == 3 || checkForWinner()[0] == 4) {
                     mBoard[i] = curr;
                     return i;
                 }
@@ -181,6 +192,19 @@ public class TicTacToeGame {
             }
         }
         return -1;
+    }
+
+    public int getCornerMove() {
+        int move = -1;
+        if (mBoard[1] == HUMAN_PLAYER && mBoard[3] == HUMAN_PLAYER && mBoard[1] == OPEN_SPOT)
+            move = 1;
+        else if (mBoard[1] == HUMAN_PLAYER && mBoard[5] == HUMAN_PLAYER && mBoard[2] == OPEN_SPOT)
+            move = 2;
+        else if (mBoard[3] == HUMAN_PLAYER && mBoard[7] == HUMAN_PLAYER && mBoard[6] == OPEN_SPOT)
+            move = 6;
+        else if (mBoard[5] == HUMAN_PLAYER && mBoard[7] == HUMAN_PLAYER && mBoard[8] == OPEN_SPOT)
+            move = 8;
+        return move;
     }
 
     public int getGodMove() {
@@ -220,8 +244,8 @@ public class TicTacToeGame {
                 return new int[]{2, i, i + 1, i + 2};
             if (mBoard[i] == COMPUTER_PLAYER &&
                     mBoard[i + 1] == COMPUTER_PLAYER &&
-                    mBoard[i + 2] == COMPUTER_PLAYER){
-                if(mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7){
+                    mBoard[i + 2] == COMPUTER_PLAYER) {
+                if (mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7) {
                     //Return 4 if God move won
                     return new int[]{4, i, i + 1, i + 2};
                 }
@@ -239,8 +263,8 @@ public class TicTacToeGame {
             //return 2;
             if (mBoard[i] == COMPUTER_PLAYER &&
                     mBoard[i + 3] == COMPUTER_PLAYER &&
-                    mBoard[i + 6] == COMPUTER_PLAYER){
-                if(mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7){
+                    mBoard[i + 6] == COMPUTER_PLAYER) {
+                if (mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7) {
                     //Return 4 if God move won
                     return new int[]{4, i, i + 3, i + 6};
                 }
@@ -265,8 +289,8 @@ public class TicTacToeGame {
         // Check for diagonal wins for Computer
         if (mBoard[0] == COMPUTER_PLAYER &&
                 mBoard[4] == COMPUTER_PLAYER &&
-                mBoard[8] == COMPUTER_PLAYER){
-            if(mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7){
+                mBoard[8] == COMPUTER_PLAYER) {
+            if (mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7) {
                 //Return 4 if God move won
                 return new int[]{4, 0, 4, 8};
             }
@@ -276,8 +300,8 @@ public class TicTacToeGame {
 
         if (mBoard[2] == COMPUTER_PLAYER &&
                 mBoard[4] == COMPUTER_PLAYER &&
-                mBoard[6] == COMPUTER_PLAYER){
-            if(mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7){
+                mBoard[6] == COMPUTER_PLAYER) {
+            if (mDifficultyLevel == DifficultyLevel.God && getNumMov() >= 7) {
                 //Return 4 if God move won
                 return new int[]{4, 2, 4, 6};
             }
