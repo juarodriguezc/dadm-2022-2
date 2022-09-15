@@ -26,7 +26,7 @@
 
     <string name="set_difficulty">Set the difficulty</string>
 
-    <string name="restart_game">Restart game</string>
+    <string name="restart_game">Restart scores</string>
     <string name="play_again">Play again</string>
     <string name="difficulty_m">Difficulty</string>
     <string name="quit">Quit</string>

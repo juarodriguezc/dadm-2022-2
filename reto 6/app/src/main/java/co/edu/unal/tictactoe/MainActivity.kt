@@ -6,16 +6,11 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.util.Log
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuBuilder
 import kotlin.system.exitProcess
 
 
@@ -25,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     // Buttons making up the board
     private lateinit var restartButton: ImageButton
+
+    //Button to open the menu
+    private lateinit var menuButton: ImageButton
 
     // Various text displayed
     private lateinit var mInfoTextView: TextView
@@ -113,11 +111,16 @@ class MainActivity : AppCompatActivity() {
         userStarts = savedInstanceState.getBoolean("userStarts")
         userPlays = savedInstanceState.getBoolean("userPlays", userPlays)
         //When the game is reloaded play if is android turn
-        if (!userPlays) {
+        if (!userPlays && !mGameOver) {
             handler.postDelayed({
                 val winner: IntArray = androidPlays()
                 checkWinner(winner, TicTacToeGame.COMPUTER_PLAYER)
             }, 2000)
+        }
+        if(mGameOver){
+            var winner: IntArray = mGame.checkForWinner()
+            var plays = if (userPlays) TicTacToeGame.HUMAN_PLAYER else TicTacToeGame.COMPUTER_PLAYER
+            checkWinner(winner, plays)
         }
     }
 
@@ -125,6 +128,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //Create game
         mGame = TicTacToeGame()
         mBoardView = findViewById(R.id.boardView)
         mBoardView.setGame(mGame)
@@ -133,6 +137,8 @@ class MainActivity : AppCompatActivity() {
         nGames = intArrayOf(0, 0, 0)
         //Button to restart
         restartButton = findViewById<View>(R.id.restartButton) as ImageButton
+        //Button to open the menu
+        menuButton = findViewById<View>(R.id.menu_button) as ImageButton
         //TextViews
         mInfoTextView = findViewById<View>(R.id.information) as TextView
         playerCount = findViewById<View>(R.id.text_player_count) as TextView
@@ -142,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         //Create audio arrays
         mSoundsPlayer = arrayOfNulls(NUMSOUND)
         //Load image
-        godImage = findViewById<ImageView>(R.id.troll_face)
+        godImage = findViewById(R.id.troll_face)
 
         //Data persistence
         mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE)
@@ -159,12 +165,26 @@ class MainActivity : AppCompatActivity() {
             startNewGame()
         }
 
+        menuButton.setOnClickListener {
+            showPopup(menuButton)
+        }
+
         //Load previous state
         if (savedInstanceState == null) {
             startNewGame()
         }
         updateWins()
     }
+
+    /*
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        //Hide notifications bar
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
+    }
+
+     */
 
     override fun onResume() {
         super.onResume()
@@ -214,7 +234,48 @@ class MainActivity : AppCompatActivity() {
         ed.putInt("ties", nGames[2])
         //Difficulty
         ed.putInt("mDifLevel", mDifLevel)
-        ed.commit()
+        ed.apply()
+    }
+
+    @SuppressLint("RestrictedApi", "DiscouragedPrivateApi")
+    private fun showPopup(v: View) {
+        val popup = PopupMenu(this, v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.options_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.restart_game -> {
+                    nGames = intArrayOf(0, 0, 0)
+                    userStarts = true
+                    startNewGame()
+                }
+                R.id.play_again -> {
+                    startNewGame()
+                }
+                R.id.ai_difficulty -> {
+                    showDifficultyDialog()
+                }
+                R.id.quit -> {
+                    showExitDialog()
+                }
+            }
+            true
+        }
+
+        //Try showing icons on menu
+        try {
+            val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+            fieldMPopup.isAccessible = true
+            val mPopup = fieldMPopup.get(popup)
+            mPopup.javaClass
+                .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(mPopup, true)
+        } catch (e: Exception) {
+            Log.e("Main", "Error showing menu icons.", e)
+        } finally {
+            popup.show()
+        }
     }
 
     private fun stopAllMPS() {
@@ -231,13 +292,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    /*
     @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (menu is MenuBuilder) {
             (menu).setOptionalIconsVisible(true)
         }
         menuInflater.inflate(R.menu.options_menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        //return super.onCreateOptionsMenu(menu)
+        return true
     }
 
 
@@ -261,11 +325,12 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+     */
 
     private fun showDifficultyDialog() {
         val mBuilder = AlertDialog.Builder(this@MainActivity)
         mBuilder.setTitle(R.string.set_difficulty)
-        mBuilder.setSingleChoiceItems(difficultyLevel, -1) { dialogInterface, i ->
+        mBuilder.setSingleChoiceItems(difficultyLevel, mDifLevel) { dialogInterface, i ->
             mDifLevel = i
             updateDifficulty()
             startNewGame()
@@ -379,6 +444,8 @@ class MainActivity : AppCompatActivity() {
                 updateWins()
                 setWinner(winner)
                 mGameOver = true
+
+
                 //Play sound
                 stopAllMPS()
                 try {

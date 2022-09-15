@@ -10,19 +10,32 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/minecraft_font2"
         android:text="@string/tictactoe"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="60sp"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/menu_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="-5dp"
+        android:background="@drawable/transparent"
+        android:contentDescription="@string/app_name"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:srcCompat="@drawable/menu_icon"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <ImageView
         android:id="@+id/troll_face"
@@ -30,10 +43,10 @@
         android:layout_height="70dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/string_troll"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:contentDescription="@string/string_troll"
         app:srcCompat="@drawable/troll_face" />
 
     <TextView
@@ -41,15 +54,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
+        android:fontFamily="@font/minecraft_font2"
         android:text="@string/information"
         android:textAlignment="center"
         android:textColor="@color/purple_200"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/boardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/restartButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/purple_200"
+        android:contentDescription="@string/app_name"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/boardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/restart2"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <co.edu.unal.tictactoe.BoardView
         android:id="@+id/boardView"
@@ -78,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="23dp"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/player"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -87,8 +117,9 @@
             android:id="@+id/text_player_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="3dp"
             android:layout_toEndOf="@+id/text_player"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/player_count"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -98,7 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_toEndOf="@+id/text_player_count"
+            android:layout_toEndOf="@+id/text_player"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/tie"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -110,6 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
             android:layout_toEndOf="@+id/text_tie"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/tie_count"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -118,8 +151,9 @@
             android:id="@+id/text_android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:layout_toStartOf="@+id/text_android_count"
+            android:layout_marginStart="60dp"
+            android:layout_toEndOf="@+id/text_tie"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/android"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -130,8 +164,9 @@
             android:id="@+id/text_android_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="23dp"
+            android:layout_marginStart="3dp"
+            android:layout_toEndOf="@+id/text_android"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/android_count"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -139,19 +174,6 @@
 
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/restartButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/purple_200"
-        android:contentDescription="@string/app_name"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/boardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/restart" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout3"
@@ -169,6 +191,7 @@
             android:id="@+id/text_difficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/difficulty"
             android:textColor="@color/purple_200"
             android:textSize="18sp"
@@ -180,14 +203,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_toEndOf="@+id/text_difficulty"
+            android:fontFamily="@font/minecraft_font2"
             android:text="@string/level"
             android:textColor="@color/purple_200"
             android:textSize="18sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

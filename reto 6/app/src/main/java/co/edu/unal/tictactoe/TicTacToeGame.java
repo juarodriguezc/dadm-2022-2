@@ -1,9 +1,6 @@
 package co.edu.unal.tictactoe;
 
 
-import android.view.View;
-
-import java.sql.SQLOutput;
 import java.util.Random;
 
 public class TicTacToeGame {
@@ -102,34 +99,39 @@ public class TicTacToeGame {
             if (move == -1)
                 move = getRandomMove();
         } else if (mDifficultyLevel == DifficultyLevel.God) {
+            System.out.println("-------------------");
             // Try to win, but if that's not possible, block.
-            // If that's not possible, move anywhere.
+            // If that's not possible, block a cornet to avoid the player winning.
+            //If not possible, take the center and the rect positions
+            //Else, gat a random move
             move = getWinningMove();
             if (move == -1) {
-                move = getCornerMove();
-            }
-            if (move == -1) {
-                if (getNumMov() < 7)
+                if (getNumMov() < 7){
+                    System.out.println("GET BLOCKING MOVE ...");
                     move = getBlockingMove();
+                    if (move == -1) {
+                        System.out.println("NO BLOCKING MOVE...");
+                        move = getCornerMove();
+                    }
+                }
                 else
                     move = getGodMove();
             }
             if (move == -1) {
+                System.out.println("NO BLOCK - CORNER - GOD MOVE...");
                 //Tomar el centro
                 if (mBoard[4] == OPEN_SPOT)
                     move = 4;
                 else if (mBoard[4] == COMPUTER_PLAYER) {
                     //Bloquear posibles jugadas del rival
-                    if (mBoard[1] == OPEN_SPOT)
+                    if (mBoard[1] == OPEN_SPOT && mBoard[7] != HUMAN_PLAYER)
                         move = 1;
-                    else if (mBoard[3] == OPEN_SPOT)
+                    else if (mBoard[3] == OPEN_SPOT && mBoard[5] != HUMAN_PLAYER)
                         move = 3;
-                    else if (mBoard[5] == OPEN_SPOT)
+                    else if (mBoard[5] == OPEN_SPOT && mBoard[3] != HUMAN_PLAYER)
                         move = 5;
-                    else if (mBoard[7] == OPEN_SPOT)
+                    else if (mBoard[7] == OPEN_SPOT && mBoard[1] != HUMAN_PLAYER)
                         move = 7;
-                    else
-                        move = -1;
                 }
             }
             //Tomar las diagonales
@@ -142,8 +144,6 @@ public class TicTacToeGame {
                     move = 6;
                 else if (mBoard[8] == OPEN_SPOT)
                     move = 8;
-                else
-                    move = -1;
             }
             if (move == -1)
                 move = getRandomMove();
@@ -196,8 +196,8 @@ public class TicTacToeGame {
 
     public int getCornerMove() {
         int move = -1;
-        if (mBoard[1] == HUMAN_PLAYER && mBoard[3] == HUMAN_PLAYER && mBoard[1] == OPEN_SPOT)
-            move = 1;
+        if (mBoard[1] == HUMAN_PLAYER && mBoard[3] == HUMAN_PLAYER && mBoard[0] == OPEN_SPOT)
+            move = 0;
         else if (mBoard[1] == HUMAN_PLAYER && mBoard[5] == HUMAN_PLAYER && mBoard[2] == OPEN_SPOT)
             move = 2;
         else if (mBoard[3] == HUMAN_PLAYER && mBoard[7] == HUMAN_PLAYER && mBoard[6] == OPEN_SPOT)
@@ -218,9 +218,7 @@ public class TicTacToeGame {
         if (move == -1) {
             move = 4;
         }
-        for (int i = 0; i < mBoard.length; i++) {
-            mBoard[i] = mBoardCopy[i];
-        }
+        System.arraycopy(mBoardCopy, 0, mBoard, 0, mBoard.length);
         return move;
     }
 
