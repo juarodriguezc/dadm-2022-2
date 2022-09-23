@@ -2,6 +2,8 @@ package co.edu.unal.tictactoe
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +13,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import kotlin.system.exitProcess
 
 
@@ -23,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     //Button to open the menu
     private lateinit var menuButton: ImageButton
+
+    //Button for music
+    private lateinit var musicButton: ImageButton
 
     // Various text displayed
     private lateinit var mInfoTextView: TextView
@@ -46,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     //Sounds for the game
     private val NUMSOUND = 7
     private lateinit var mSoundsPlayer: Array<MediaPlayer?>
+    private var musicSounds = true
+    private var musicPos = 0
 
     //Game board view
     private lateinit var mBoardView: BoardView
@@ -100,6 +108,9 @@ class MainActivity : AppCompatActivity() {
         outState.putCharSequence("info", mInfoTextView.text)
         outState.putBoolean("userStarts", userStarts)
         outState.putBoolean("userPlays", userPlays)
+        //Save song position
+        outState.putInt("musicPos", musicPos)
+        //outState.putInt("musicPos", mSoundsPlayer[0].currentPosition)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -110,6 +121,7 @@ class MainActivity : AppCompatActivity() {
         mInfoTextView.text = savedInstanceState.getCharSequence("info")
         userStarts = savedInstanceState.getBoolean("userStarts")
         userPlays = savedInstanceState.getBoolean("userPlays", userPlays)
+        musicPos = savedInstanceState.getInt("musicPos", 0)
         //When the game is reloaded play if is android turn
         if (!userPlays && !mGameOver) {
             handler.postDelayed({
@@ -117,9 +129,9 @@ class MainActivity : AppCompatActivity() {
                 checkWinner(winner, TicTacToeGame.COMPUTER_PLAYER)
             }, 2000)
         }
-        if(mGameOver){
-            var winner: IntArray = mGame.checkForWinner()
-            var plays = if (userPlays) TicTacToeGame.HUMAN_PLAYER else TicTacToeGame.COMPUTER_PLAYER
+        if (mGameOver) {
+            val winner: IntArray = mGame.checkForWinner()
+            val plays = if (userPlays) TicTacToeGame.HUMAN_PLAYER else TicTacToeGame.COMPUTER_PLAYER
             checkWinner(winner, plays)
         }
     }
@@ -139,6 +151,8 @@ class MainActivity : AppCompatActivity() {
         restartButton = findViewById<View>(R.id.restartButton) as ImageButton
         //Button to open the menu
         menuButton = findViewById<View>(R.id.menu_button) as ImageButton
+        //Button to mute music
+        musicButton = findViewById<View>(R.id.musicButton) as ImageButton
         //TextViews
         mInfoTextView = findViewById<View>(R.id.information) as TextView
         playerCount = findViewById<View>(R.id.text_player_count) as TextView
@@ -160,6 +174,16 @@ class MainActivity : AppCompatActivity() {
         mDifLevel = mPrefs.getInt("mDifLevel", 2)
         updateDifficulty()
 
+        //Store if music is muted
+        musicSounds = mPrefs.getBoolean("musicSounds", true)
+
+        //Update icon of music sound
+        if (!musicSounds)
+            musicButton.setImageResource(R.drawable.mute)
+        else
+            musicButton.setImageResource(R.drawable.sound)
+
+
         //Listener for restart button
         restartButton.setOnClickListener {
             startNewGame()
@@ -169,22 +193,16 @@ class MainActivity : AppCompatActivity() {
             showPopup(menuButton)
         }
 
+        musicButton.setOnClickListener {
+            musicUNMute()
+        }
+
         //Load previous state
         if (savedInstanceState == null) {
             startNewGame()
         }
         updateWins()
     }
-
-    /*
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        //Hide notifications bar
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
-    }
-
-     */
 
     override fun onResume() {
         super.onResume()
@@ -201,10 +219,13 @@ class MainActivity : AppCompatActivity() {
         mSoundsPlayer[0] = MediaPlayer.create(applicationContext, R.raw.ost)
         try {
             mSoundsPlayer[0]?.isLooping = true
+            mSoundsPlayer[0]?.seekTo(musicPos)
             mSoundsPlayer[0]?.setVolume(0.09F, 0.09F)
-            mSoundsPlayer[0]?.start()
+            if (musicSounds) {
+                mSoundsPlayer[0]?.start()
+            }
         } catch (e: IllegalStateException) {
-            println("Error al reproducir del OST")
+            println("Error al reproducir el OST")
         }
         mSoundsPlayer[1] = MediaPlayer.create(applicationContext, R.raw.player)
         mSoundsPlayer[2] = MediaPlayer.create(applicationContext, R.raw.computer)
@@ -217,6 +238,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        //Get sound position onPause event
+        try {
+            if (mSoundsPlayer[0] != null) {
+                musicPos = mSoundsPlayer[0]?.currentPosition!!
+            }
+        } catch (e: IllegalStateException) {
+            println("Error al reproducir el OST")
+        }
+        //Release all the sounds
         for (i in 0 until NUMSOUND) {
             mSoundsPlayer[i]?.release()
         }
@@ -234,12 +264,15 @@ class MainActivity : AppCompatActivity() {
         ed.putInt("ties", nGames[2])
         //Difficulty
         ed.putInt("mDifLevel", mDifLevel)
+        //Music stops
+        ed.putBoolean("musicSounds", musicSounds)
         ed.apply()
     }
 
     @SuppressLint("RestrictedApi", "DiscouragedPrivateApi")
     private fun showPopup(v: View) {
-        val popup = PopupMenu(this, v)
+        val wrapper = ContextThemeWrapper(this, R.style.CustomPopupMenu)
+        val popup = PopupMenu(wrapper, v, Gravity.END)
         val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.options_menu, popup.menu)
 
@@ -278,6 +311,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun musicUNMute() {
+
+
+        musicSounds = !musicSounds
+        if (musicSounds) {
+            musicButton.setImageResource(R.drawable.sound)
+            try {
+                mSoundsPlayer[0]?.start()
+            } catch (e: IllegalStateException) {
+                println("Error al reproducir el OST")
+            }
+
+        } else {
+            musicButton.setImageResource(R.drawable.mute)
+            try {
+                mSoundsPlayer[0]?.pause()
+            } catch (e: IllegalStateException) {
+                println("Error al pausar el OST")
+            }
+        }
+    }
+
     private fun stopAllMPS() {
         for (i in 1 until NUMSOUND) {
             try {
@@ -292,44 +347,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    /*
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (menu is MenuBuilder) {
-            (menu).setOptionalIconsVisible(true)
-        }
-        menuInflater.inflate(R.menu.options_menu, menu)
-        //return super.onCreateOptionsMenu(menu)
-        return true
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.restart_game -> {
-                nGames = intArrayOf(0, 0, 0)
-                userStarts = true
-                startNewGame()
-            }
-            R.id.play_again -> {
-                startNewGame()
-            }
-            R.id.ai_difficulty -> {
-                showDifficultyDialog()
-            }
-            R.id.quit -> {
-                showExitDialog()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-     */
-
     private fun showDifficultyDialog() {
-        val mBuilder = AlertDialog.Builder(this@MainActivity)
-        mBuilder.setTitle(R.string.set_difficulty)
+        val wrapper = ContextThemeWrapper(this, R.style.CustomAlertDialog)
+        val mBuilder = AlertDialog.Builder(wrapper)
+        //Textview
+        val textView = TextView(this)
+        textView.typeface = ResourcesCompat.getFont(this, R.font.minecraft_font2)
+        textView.text = getString(R.string.set_difficulty)
+        textView.setPadding(0, 60, 0, 20)
+        textView.textSize = 25f
+        textView.gravity = Gravity.CENTER_HORIZONTAL
+        textView.setTextColor(Color.WHITE)
+
+        mBuilder.setCustomTitle(textView)
         mBuilder.setSingleChoiceItems(difficultyLevel, mDifLevel) { dialogInterface, i ->
             mDifLevel = i
             updateDifficulty()
@@ -340,6 +370,10 @@ class MainActivity : AppCompatActivity() {
             dialog.cancel()
         }
         val mDialog = mBuilder.create()
+
+        mDialog.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#C1323232")));
+
+
         mDialog.show()
     }
 
@@ -350,15 +384,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showExitDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Close the game")
+        val wrapper = ContextThemeWrapper(this, R.style.CustomAlertDialog)
+        //Create dialog
+        val builder = AlertDialog.Builder(wrapper)
+
+        //Title
+        val textView = TextView(this)
+        textView.typeface = ResourcesCompat.getFont(this, R.font.minecraft_font2)
+        textView.text = "Close the game"
+        textView.setPadding(0, 60, 0, 20)
+        textView.textSize = 20f
+        textView.gravity = Gravity.CENTER_HORIZONTAL
+        textView.setTextColor(Color.WHITE)
+
+        builder.setCustomTitle(textView)
         builder.setMessage("Do you want to close the game?")
         builder.setPositiveButton("Yes") { _, _ ->
             exitProcess(0)
         }
         builder.setNegativeButton("No") { _, _ ->
         }
-        builder.show()
+
+        val mDialog = builder.create()
+
+        mDialog.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#C1323232")));
+
+        mDialog.show()
     }
 
     // Set up the game board.

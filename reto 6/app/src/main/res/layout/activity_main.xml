@@ -53,7 +53,7 @@
         android:id="@+id/information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/minecraft_font2"
         android:text="@string/information"
         android:textAlignment="center"
@@ -80,6 +80,21 @@
         app:srcCompat="@drawable/restart2"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
+    <ImageButton
+        android:id="@+id/musicButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/purple_200"
+        android:contentDescription="@string/app_name"
+        android:padding="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/sound"
+        tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
+
     <co.edu.unal.tictactoe.BoardView
         android:id="@+id/boardView"
         android:layout_width="360dp"
@@ -95,7 +110,7 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -179,7 +194,7 @@
         android:id="@+id/relativeLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="18dp"
         android:gravity="center_horizontal"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -194,7 +209,7 @@
             android:fontFamily="@font/minecraft_font2"
             android:text="@string/difficulty"
             android:textColor="@color/purple_200"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -206,7 +221,7 @@
             android:fontFamily="@font/minecraft_font2"
             android:text="@string/level"
             android:textColor="@color/purple_200"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

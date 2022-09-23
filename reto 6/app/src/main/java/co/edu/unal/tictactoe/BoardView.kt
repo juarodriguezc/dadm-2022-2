@@ -17,7 +17,7 @@ class BoardView : View {
 
     private var mPaint: Paint? = null
 
-    private lateinit var mGame: TicTacToeGame
+    private var mGame: TicTacToeGame = TicTacToeGame()
 
     private var winner: Boolean = false
 
