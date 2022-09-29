@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">TicTacToe</string>
+    <string name="tictactoe">TicTacToe</string>
+    <string name="thegame">The Game</string>
+
+
+    <string name="singleplayer">Singleplayer</string>
+    <string name="multilocal">Multiplayer local</string>
+    <string name="multionline">Multiplayer online</string>
+
+
+    <string name="createRoom">Create room</string>
+
+    <string name="closeGame">Do you want to close the game?</string>
+    <string name="closeGameMatch">Do you want to finish the match and close the game?</string>
+    <string name="finishMatch">Do you want to finish the match?</string>
+
+
+    <string name="itsatie">It\'s a tie !</string>
+    <string name="androidwon">Android Won!</string>
+    <string name="youwon">You Won!</string>
+
+    <string name="youfirst">You go first</string>
+    <string name="androidfirst">Android go first</string>
+    <string name="androidturn">It\'s Android\'s turn</string>
+    <string name="youturn">It\'s your turn</string>
+
+    <string name="information">Information</string>
+
+
+    <string name="player">Player:</string>
+    <string name="player_count">0</string>
+
+    <string name="tie">Tie:</string>
+    <string name="tie_count">0</string>
+
+    <string name="android">Android:</string>
+    <string name="android_count">0</string>
+
+    <string name="you">You:</string>
+    <string name="opponent">Opponent:</string>
+
+
+    <string name="difficulty">Difficulty:</string>
+    <string name="level">Extreme</string>
+
+    <string name="roomIDTitle">Room ID:</string>
+    <string name="roomId">0000</string>
+
+
+    <string name="set_difficulty">Set the difficulty</string>
+
+    <string name="restart_game">Restart scores</string>
+    <string name="play_again">Play again</string>
+    <string name="difficulty_m">Difficulty</string>
+    <string name="quit">Quit</string>
+    <string name="string_troll">string/troll</string>
+    <string name="list_of_rooms">List of rooms</string>
+    <string name="room_id_item">0000</string>
+    <string name="id">#</string>
+
+
+</resources>

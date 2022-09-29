@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 3/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2985" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 3/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 3/app/src/main/res/menu/options_menu.xml" value="0.5" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 5/app/src/main/res/layout/activity_main.xml" value="0.67" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 5/app/src/main/res/menu/options_menu.xml" value="0.2765625" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/layout-land/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/layout/activity_main.xml" value="0.9" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/menu/options_menu.xml" value="0.6644736842105263" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/mipmap-anydpi-v26/difficulty_round.xml" value="0.3055" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/mipmap-anydpi-v26/exit.xml" value="0.2985" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/mipmap-anydpi-v26/exit_round.xml" value="0.3055" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 6/app/src/main/res/mipmap-anydpi-v26/restart_game_round.xml" value="0.3675" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout-land/activity_home_screen.xml" value="0.5" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout-land/activity_pandroid.xml" value="0.5" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout/activity_home_screen.xml" value="0.33" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout/activity_main.xml" value="0.835032437442076" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout/activity_online_room.xml" value="0.33" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout/activity_pandroid.xml" value="0.5" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout/activity_ponline.xml" value="0.33" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/layout/item_room.xml" value="0.67" />
+        <entry key="..\:/Users/juans/Desktop/dadm-2022-2/reto 7/app/src/main/res/menu/options_menu_online.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
