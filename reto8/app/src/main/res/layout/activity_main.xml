@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondaryColor"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/businessConstraint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#F6F6F6"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <EditText
+            android:id="@+id/textName"
+            android:layout_width="155dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:autofillHints=""
+            android:background="#DFDFDF"
+            android:ems="10"
+            android:hint="@string/company_name"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:paddingLeft="15dp"
+            android:textColor="#5E5E5E"
+            android:textColorHint="#616161"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textOption" />
+
+        <EditText
+            android:id="@+id/textPhone"
+            android:layout_width="155dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#DFDFDF"
+            android:ems="10"
+            android:hint="Telephone"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:paddingLeft="15dp"
+            android:textColor="#5E5E5E"
+            android:textColorHint="#616161"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+        <EditText
+            android:id="@+id/textEmail"
+            android:layout_width="155dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="#DFDFDF"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textWebEmailAddress"
+            android:minHeight="48dp"
+            android:paddingLeft="15dp"
+            android:textColor="#5E5E5E"
+            android:textColorHint="#616161"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textURL" />
+
+        <EditText
+            android:id="@+id/textProdServ"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="#DFDFDF"
+            android:ems="10"
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="Product and services"
+            android:inputType="textWebEmailAddress"
+            android:minHeight="48dp"
+            android:textColor="#5E5E5E"
+            android:textColorHint="#616161"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textPhone" />
+
+        <EditText
+            android:id="@+id/textURL"
+            android:layout_width="155dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:background="#DFDFDF"
+            android:ems="10"
+            android:hint="URL"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:paddingLeft="20dp"
+            android:textColor="#5E5E5E"
+            android:textColorHint="#616161"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textOption" />
+
+        <Spinner
+            android:id="@+id/spinnerBtype"
+            android:layout_width="178dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textProdServ" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/secondaryDarkColor"
+            android:text="@string/save"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textProdServ"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:background="#E91E63"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSave"
+            app:layout_constraintTop_toBottomOf="@+id/textProdServ"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/textOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="175dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="176dp"
+            android:text="Add Company"
+            android:textColor="#393939"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:text="@string/businessapp"
+        android:textAlignment="center"
+        android:textColor="#272727"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:background="#F6F6F6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCompanies">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleCompany"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="#DFDFDF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textCompanies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="List of companies"
+        android:textColor="#1B1B1B"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/businessConstraint" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">BusinessApp</string>
+    <string name="businessapp">BusinessApp</string>
+    <string name="company_name">Company name</string>
+    <string name="save">Save</string>
+
+    <string name="addCompany">Add Company</string>
+    <string name="editCompany">Edit Company</string>
+
+
+
+</resources>
