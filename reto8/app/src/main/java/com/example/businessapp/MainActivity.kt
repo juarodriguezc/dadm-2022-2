@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cancelButton: Button
 
     private lateinit var spinner: Spinner
-    private var listBType = listOf("","Consultancy", "Development")
+    private var listBType = listOf("-","Consultancy", "Development")
 
     private var idCompany: Int? = null
 
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             val prodServ = textProdServ.text.toString()
             val bType = spinner.selectedItem.toString()
 
-            if (name != "" && URL != "" && phone != "" && email != "" && prodServ != "" && bType != "") {
+            if (name != "" && URL != "" && phone != "" && email != "" && prodServ != "" && bType != "-") {
                 val business = Business(name, URL, phone, email, prodServ, bType)
                 if (idCompany != null) {
                     CoroutineScope(Dispatchers.IO).launch {
